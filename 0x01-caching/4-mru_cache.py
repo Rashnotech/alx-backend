@@ -18,7 +18,8 @@ class MRUCache(BaseCaching):
         """a method that assign to cache"""
         if not key or not item:
             return None
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS\
+                and key not in self.cache_data:
             last_key, _ = self.cache_data.popitem(False)
             print('DISCARD: {}'.format(last_key))
         self.cache_data[key] = item
