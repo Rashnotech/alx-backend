@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """a module that inherits BaseCaching and caching system LIFO"""
 from base_caching import BaseCaching
+from collections import OrderedDict
 
 
 class LIFOCache(BaseCaching):
@@ -10,6 +11,7 @@ class LIFOCache(BaseCaching):
     def __init__(self):
         """class initialization"""
         super().__init__()
+        self.cache_data = OrderedDict()
 
     def put(self, key, item):
         """
@@ -20,11 +22,14 @@ class LIFOCache(BaseCaching):
         """
         if not key or not item:
             return
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            if key not in self.cache_data:
+                last_key, value = self.cache_data.popitem()
+                print('DISCARD: {}'.format(last_key))
+            else:
+                self.cache_data.pop(key)
         self.cache_data[key] = item
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            last_key = next(reversed(self.cache_data))
-            del self.cache_data[last_key]
-            print('DISCARD: {}'.format(last_key))
+        self.cache_data.move_to_end
 
     def get(self, key):
         """a method that get a key"""
