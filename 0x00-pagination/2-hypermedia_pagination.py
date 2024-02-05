@@ -64,8 +64,8 @@ class Server:
         next_page = page + 1 if endIndex < total_records else None
         prev_page = page - 1 if startIndex > 0 else None
         kwargs = {
-                'page_size' : len(data),
-                'page' : page,
+                'page_size': len(data),
+                'page': page,
                 'data': [],
                 'next_page': next_page,
                 'prev_page': prev_page,
