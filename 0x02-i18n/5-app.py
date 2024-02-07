@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """flask app entry point"""
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from flask_babel import Babel
+from typing import Union, Dict
 
 
 users = {
@@ -10,6 +11,7 @@ users = {
     3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
     4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
 }
+
 
 class Config:
     """app localization"""
@@ -32,12 +34,19 @@ def get_locale() -> str:
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
-@app.before_request
-def get_user(login_as):
+def get_user() -> Union[Dict, None]:
     """a function that finds an id"""
-    if not login_as:
-        return None
-    return users[login_as]
+    user = request.args.get('login_as')
+    if user:
+        user = users[int(user)]
+    return user
+
+
+@app.before_request
+def before_request() -> None:
+    """middleware function"""
+    user = get_user()
+    g.user = user
 
 
 @app.route('/', strict_slashes=False)
