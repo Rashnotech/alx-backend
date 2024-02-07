@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""get locale from request"""
+"""flask app entry point"""
+from flask import Flask
 from flask_babel import Babel
-from flask import Flask, render_template, request
 
 
 app = Flask(__name__)
@@ -9,7 +9,7 @@ babel = Babel(app)
 
 
 class Config:
-    """localization configuration"""
+    """app localization"""
     LANGUAGES = ['en', 'fr']
 
 
@@ -27,7 +27,7 @@ def get_locale():
 @app.route('/', strict_slashes=False)
 def index():
     """render html template"""
-    return render_template('2-index.html')
+    return render_template('3-index.html')
 
 
 if __name__ == '__main__':
