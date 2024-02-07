@@ -13,7 +13,16 @@ class Config:
     LANGUAGES = ['en', 'fr']
 
 
-
 app.config.from_object(Config)
 babel.default_locale = 'en'
 babel.default_timezone = 'UTC'
+
+
+@app.route('/', strict_slashes=False)
+def index():
+    """render html template"""
+    return render_template('1-index.html')
+
+
+if __name__ == '__main__':
+    app.run()
