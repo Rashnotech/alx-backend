@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """flask app entry point"""
-from flask import Flask
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 
